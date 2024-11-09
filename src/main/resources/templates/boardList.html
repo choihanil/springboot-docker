@@ -10,9 +10,18 @@
         margin : 0 auto;
         margin-top : 40px;
     }
+    .button-link {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+    }
 </style>
 <body>
     <div class="layout">
+        <a th:href="@{/board/write}" class="button-link">글작성</a>
         <table>
             <thead>
                 <tr>
@@ -29,7 +38,6 @@
                 </tr>
             </tbody>
         </table>
-
         <th:block th:each="page:${#numbers.sequence(startPage,endPage)}">
             <a th:if="${page != nowPage}" th:href="@{/board/list(page = ${page}, searchKeyword = ${param.searchKeyword})}" th:text="${page}"></a>
             <strong th:if="${page == nowPage}"  th:text="${page}" style="color:red"></strong>

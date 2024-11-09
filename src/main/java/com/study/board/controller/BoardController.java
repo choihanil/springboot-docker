@@ -16,11 +16,14 @@ import org.springframework.web.multipart.MultipartFile;
 public class BoardController {
     @Autowired
     private BoardService boardService;
+
     @GetMapping("/board/write") // localhost:8090/board/write
     public String BoardWriteForm() {
 
         return "boardwrite";
     }
+
+
 
     @PostMapping("/board/writepro")
     public String boardwritePro(Board board, Model model, @RequestParam(name="file", required = false) MultipartFile file) throws Exception{
@@ -84,7 +87,11 @@ public class BoardController {
         boardTemp.setTitle(board.getTitle());
         boardTemp.setContent(board.getContent());
 
-        boardService.write(boardTemp, file);
+        if (file != null && !file.isEmpty()) {
+            boardService.write(boardTemp, file);
+        } else {
+            boardService.write(boardTemp);  // 파일이 없을 때는 파일 저장 없이 게시글만 저장
+        }
 
         model.addAttribute("message", "수정되었습니다.");
         model.addAttribute("searchUrl","/board/list");
